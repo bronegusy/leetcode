@@ -1,0 +1,22 @@
+class Solution {
+    fun numberOfWays(A: String): Int {
+        var S = A.split("").filter{ it == "S" }.size
+        if (S % 2 == 1 || S == 0)
+            return 0
+        var P = mutableListOf<Int>()
+        var (i, N) = Pair(0, A.length)
+        while (i < N) {
+            var (s, p) = Pair(0, 0)
+            while (i < N && s < 2)
+                s += if (A[i++] == 'S') 1 else 0
+            while (i < N && A[i] == 'P') {
+                ++p; ++i
+            }
+            P.add(p + 1)
+        }
+        var cnt = 1L
+        for (x in P.slice(0 until P.lastIndex))
+            cnt = (cnt * x) % (1e9 + 7).toInt()
+        return cnt.toInt()
+    }
+}
